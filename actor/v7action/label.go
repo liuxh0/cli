@@ -79,6 +79,14 @@ func (actor *Actor) UpdateOrganizationLabelsByOrganizationName(orgName string, l
 	return actor.updateResourceMetadata("org", org.GUID, ccv3.Metadata{Labels: labels}, warnings)
 }
 
+func (actor *Actor) UpdateRouteLabels(routeName string, spaceGUID string, labels map[string]types.NullString) (Warnings, error) {
+	route, warnings, err := actor.GetRouteByNameAndSpace(routeName, spaceGUID)
+	if err != nil {
+		return warnings, err
+	}
+	return actor.updateResourceMetadata("route", route.GUID, ccv3.Metadata{Labels: labels}, warnings)
+}
+
 func (actor *Actor) UpdateSpaceLabelsBySpaceName(spaceName string, orgGUID string, labels map[string]types.NullString) (Warnings, error) {
 	space, warnings, err := actor.GetSpaceByNameAndOrganization(spaceName, orgGUID)
 	if err != nil {
