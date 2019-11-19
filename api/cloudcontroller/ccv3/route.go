@@ -16,6 +16,7 @@ type Route struct {
 	Host       string
 	Path       string
 	URL        string
+	Metadata   *Metadata `json:"metadata,omitempty"`
 }
 
 func (r Route) MarshalJSON() ([]byte, error) {

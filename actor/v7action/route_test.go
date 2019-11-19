@@ -270,8 +270,8 @@ var _ = Describe("Route Actions", func() {
 
 		When("the route does not have a host", func() {
 			It("returns the route and warnings", func() {
-				routeGUID, warnings, executeErr := actor.GetRouteGUID("hostname.domain-name", "space-guid")
-				Expect(routeGUID).To(Equal("route1-guid"))
+				route, warnings, executeErr := actor.GetRoute("hostname.domain-name", "space-guid")
+				Expect(route.GUID).To(Equal("route1-guid"))
 				Expect(warnings).To(ConsistOf("get-domains-warning", "get-route-warning-1", "get-route-warning-2"))
 				Expect(executeErr).ToNot(HaveOccurred())
 
@@ -322,8 +322,8 @@ var _ = Describe("Route Actions", func() {
 				)
 			})
 			It("returns the route and warnings", func() {
-				routeGUID, warnings, executeErr := actor.GetRouteGUID("hostname.domain-name/the-path", "space-guid")
-				Expect(routeGUID).To(Equal("route1-guid"))
+				route, warnings, executeErr := actor.GetRoute("hostname.domain-name/the-path", "space-guid")
+				Expect(route.GUID).To(Equal("route1-guid"))
 				Expect(warnings).To(ConsistOf("get-domains-warning-1", "get-domains-warning-2", "get-route-warning-1", "get-route-warning-2"))
 				Expect(executeErr).ToNot(HaveOccurred())
 
@@ -361,7 +361,7 @@ var _ = Describe("Route Actions", func() {
 			})
 
 			It("returns the error and any warnings", func() {
-				_, warnings, executeErr := actor.GetRouteGUID("unsplittabledomain/the-path", "space-guid")
+				_, warnings, executeErr := actor.GetRoute("unsplittabledomain/the-path", "space-guid")
 				Expect(warnings).To(ConsistOf("get-domains-warning"))
 				Expect(executeErr).To(MatchError(actionerror.DomainNotFoundError{Name: "unsplittabledomain"}))
 			})
@@ -377,7 +377,7 @@ var _ = Describe("Route Actions", func() {
 			})
 
 			It("returns the error and any warnings", func() {
-				_, warnings, executeErr := actor.GetRouteGUID("unsplittabledomain/the-path", "space-guid")
+				_, warnings, executeErr := actor.GetRoute("unsplittabledomain/the-path", "space-guid")
 				Expect(warnings).To(ConsistOf("get-domains-warning", "get-route-warning-1", "get-route-warning-2"))
 				Expect(executeErr).To(MatchError(actionerror.RouteNotFoundError{Host: "", DomainName: "unsplittabledomain", Path: "/the-path"}))
 			})
@@ -395,7 +395,7 @@ var _ = Describe("Route Actions", func() {
 			})
 
 			It("returns the error and any warnings", func() {
-				_, warnings, executeErr := actor.GetRouteGUID("hostname.domain-name/the-path", "space-guid")
+				_, warnings, executeErr := actor.GetRoute("hostname.domain-name/the-path", "space-guid")
 				Expect(warnings).To(ConsistOf("get-domains-warning"))
 				Expect(executeErr).To(Equal(err))
 			})
@@ -412,7 +412,7 @@ var _ = Describe("Route Actions", func() {
 			})
 
 			It("returns the error and any warnings", func() {
-				_, warnings, executeErr := actor.GetRouteGUID("hostname.domain-name/the-path", "space-guid")
+				_, warnings, executeErr := actor.GetRoute("hostname.domain-name/the-path", "space-guid")
 				Expect(executeErr).To(Equal(err))
 				Expect(warnings).To(ConsistOf("get-domains-warning", "get-route-warning-1", "get-route-warning-2"))
 			})
